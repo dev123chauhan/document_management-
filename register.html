@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registration Form</title>
+<style>
+  .form-container {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<p href="#" class="registerLink">Register Now</p>
+
+<div id="register-form" class="form-container">
+  <h2>Register</h2>
+  <form id="registration-form">
+    <input type="email" id="reg-email" placeholder="Email" required />
+    <input type="password" id="reg-password" placeholder="Password" required />
+    <input type="password" id="confirm-password" placeholder="Confirm Password" required />
+    <button type="submit">Register</button>
+  </form>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const registerLink = document.querySelector(".registerLink");
+    const registerForm = document.getElementById("register-form");
+
+    registerLink.addEventListener("click", function() {
+      registerForm.style.display = "block";
+    });
+  });
+</script>
+
+</body>
+</html>

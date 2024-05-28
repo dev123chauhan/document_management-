@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document Management System</title>
+    <link rel="stylesheet" href="home.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+
+      .section {
+        background-color: white;
+        margin: 2em auto;
+        padding: 2em;
+        max-width: 800px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      form input[type="file"] {
+        margin-bottom: 1em;
+      }
+      button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      button[style="display:none;"] {
+        display: none !important;
+      }
+      #file-preview img,
+      #file-preview iframe {
+        max-width: 100%;
+        margin-top: 1em;
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 400px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .share-options button {
+        margin: 10px;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        background-color: #4caf50;
+        color: white;
+        border-radius: 5px;
+      }
+      .share-options button:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header-container">
+      <img class="logoImg" src="logo.png" alt="" />
+      <nav>
+        <ul>
+          <li>
+            <a onclick="setActiveLink(this)" class="active">Upload Document</a>
+          </li>
+          <li>
+            <a onclick="setActiveLink(this)">Update/Delete Document</a>
+          </li>
+          <li><a onclick="setActiveLink(this)">Share Document</a></li>
+          <li><a onclick="setActiveLink(this)">My Profile</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <h2 class="documentText">Document Management System</h2>
+    <section id="upload" class="section">
+      <h2>Upload Document</h2>
+
+      <form id="upload-form">
+        <input type="file" id="file-input" />
+        <button type="submit">Upload</button>
+      </form>
+      <div id="file-preview"></div>
+      <button id="update-btn" style="display: none">Update</button>
+      <button id="delete-btn" style="display: none">Delete</button>
+      <input type="file" id="update-file-input" style="display: none" />
+      <button id="confirm-update-btn" style="display: none">
+        Confirm Update
+      </button>
+    </section>
+
+    <section id="update-delete" class="section">
+      <h2>Update/Delete Document</h2>
+      <!-- Update/Delete Document UI goes here -->
+    </section>
+
+    <section id="share" class="section">
+      <h2>Share Document</h2>
+      <button id="get-share-link-btn" style="display: none">
+        Get Shareable Link
+      </button>
+      <input type="text" id="share-link" readonly style="display: none" />
+      <button id="copy-link-btn" style="display: none">Copy Link</button>
+      <button id="share-btn" style="display: none">Share</button>
+    </section>
+
+    <section id="profile" class="section">
+      <h2>My Profile</h2>
+      <!-- User Profile Management UI goes here -->
+    </section>
+
+    <!-- Modal for sharing options -->
+    <div id="shareModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Share Document</h2>
+        <div class="share-options">
+          <button id="share-whatsapp-btn">Share via WhatsApp</button>
+          <button id="share-instagram-btn">Share via Instagram</button>
+          <!-- Add more buttons for other platforms as needed -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-storage-compat.js"></script>
+
+    <script>
+      function setActiveLink(element) {
+        var links = document.querySelectorAll(".header-container nav ul li a");
+        links.forEach(function (link) {
+          link.classList.remove("active");
+        });
+        element.classList.add("active");
+      }
+    </script>
+
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyA2ksRDq8KclPpe23NMyWodHb4hbvLwwa0",
+        authDomain: "document-management-f7bdd.firebaseapp.com",
+        projectId: "document-management-f7bdd",
+        storageBucket: "document-management-f7bdd.appspot.com",
+        messagingSenderId: "898557418309",
+        appId: "1:898557418309:web:cecace7022da99ef823c2c",
+        measurementId: "G-C2CM2T5JBP",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      const fileInput = document.getElementById("file-input");
+      const uploadForm = document.getElementById("upload-form");
+      const filePreview = document.getElementById("file-preview");
+      const updateBtn = document.getElementById("update-btn");
+      const deleteBtn = document.getElementById("delete-btn");
+      const updateFileInput = document.getElementById("update-file-input");
+      const confirmUpdateBtn = document.getElementById("confirm-update-btn");
+      const getShareLinkBtn = document.getElementById("get-share-link-btn");
+      const shareLinkInput = document.getElementById("share-link");
+      const copyLinkBtn = document.getElementById("copy-link-btn");
+      const shareBtn = document.getElementById("share-btn");
+      const shareModal = document.getElementById("shareModal");
+      const closeModal = document.getElementsByClassName("close")[0];
+      const shareWhatsAppBtn = document.getElementById("share-whatsapp-btn");
+      const shareInstagramBtn = document.getElementById("share-instagram-btn");
+      let currentFileRef;
+      let currentFileName;
+      let shareableLink;
+
+      uploadForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const file = fileInput.files[0];
+
+        if (!file) {
+          console.error("No file selected.");
+          return;
+        }
+
+        const storageRef = firebase.storage().ref();
+        currentFileName = file.name;
+        currentFileRef = storageRef.child("documents/" + currentFileName);
+        const uploadTask = currentFileRef.put(file);
+
+        uploadTask.on(
+          "state_changed",
+          function (snapshot) {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress.toFixed(2) + "% done");
+          },
+          function (error) {
+            console.error("Error uploading file:", error);
+          },
+          function () {
+            console.log("File uploaded successfully");
+            displayFile(file);
+            uploadForm.reset();
+            updateBtn.style.display = "inline";
+            deleteBtn.style.display = "inline";
+            getShareLinkBtn.style.display = "inline";
+          }
+        );
+      });
+
+      function displayFile(file) {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          const fileType = file.type;
+          const fileName = file.name;
+          if (fileType.includes("image")) {
+            const img = document.createElement("img");
+            img.src = event.target.result;
+            filePreview.innerHTML = "";
+            filePreview.appendChild(img);
+          } else if (fileType.includes("pdf")) {
+            const pdfPreview = document.createElement("iframe");
+            pdfPreview.classList.add("pdf-preview");
+            pdfPreview.src = event.target.result;
+            filePreview.innerHTML = "";
+            filePreview.appendChild(pdfPreview);
+          } else {
+            filePreview.innerHTML = `<p>${fileName}</p>`;
+          }
+          filePreview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+
+      updateBtn.addEventListener("click", function () {
+        updateFileInput.click();
+      });
+
+      updateFileInput.addEventListener("change", function () {
+        confirmUpdateBtn.style.display = "inline";
+      });
+
+      confirmUpdateBtn.addEventListener("click", function () {
+        const newFile = updateFileInput.files[0];
+        if (!newFile) {
+          console.error("No file selected for update.");
+          return;
+        }
+
+        currentFileRef
+          .put(newFile)
+          .then(() => {
+            console.log("File updated successfully");
+            displayFile(newFile);
+            confirmUpdateBtn.style.display = "none";
+          })
+          .catch((error) => {
+            console.error("Error updating file:", error);
+          });
+      });
+
+      deleteBtn.addEventListener("click", function () {
+        currentFileRef
+          .delete()
+          .then(() => {
+            console.log("File deleted successfully");
+            filePreview.style.display = "none";
+            updateBtn.style.display = "none";
+            deleteBtn.style.display = "none";
+            getShareLinkBtn.style.display = "none";
+            shareLinkInput.style.display = "none";
+            copyLinkBtn.style.display = "none";
+            shareBtn.style.display = "none";
+          })
+          .catch((error) => {
+            console.error("Error deleting file:", error);
+          });
+      });
+
+      getShareLinkBtn.addEventListener("click", function () {
+        currentFileRef
+          .getDownloadURL()
+          .then((url) => {
+            shareableLink = url;
+            shareLinkInput.value = shareableLink;
+            shareLinkInput.style.display = "block";
+            copyLinkBtn.style.display = "inline";
+            shareBtn.style.display = "inline";
+          })
+          .catch((error) => {
+            console.error("Error getting download URL:", error);
+          });
+      });
+
+      copyLinkBtn.addEventListener("click", function () {
+        shareLinkInput.select();
+        shareLinkInput.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        alert("Link copied to clipboard");
+      });
+
+      shareBtn.addEventListener("click", function () {
+        shareModal.style.display = "block";
+      });
+
+      closeModal.onclick = function () {
+        shareModal.style.display = "none";
+      };
+
+      window.onclick = function (event) {
+        if (event.target == shareModal) {
+          shareModal.style.display = "none";
+        }
+      };
+
+      shareWhatsAppBtn.addEventListener("click", function () {
+        const whatsappURL = `https://api.whatsapp.com/send?text=${encodeURIComponent(
+          "Check out this document: " + shareableLink
+        )}`;
+        window.open(whatsappURL, "_blank");
+      });
+
+      shareInstagramBtn.addEventListener("click", function () {
+        alert(
+          "Instagram does not support direct URL sharing. Please copy the link and share it manually."
+        );
+      });
+    </script>
+
+    <script src="app.js"></script>
+  </body>
+</html>

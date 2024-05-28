@@ -1,0 +1,247 @@
+*{
+  font-family: "Montserrat", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --success: #0abf30;
+  --error: #e24d4c;
+}
+
+.toast-list {
+  position: fixed;
+  top: 30px;
+  right: 20px;
+}
+
+.toast-list .toast {
+  list-style: none;
+  width: 400px;
+  background: var(--light);
+  padding: 16px 17px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+  animation: show 0.3s ease forwards;
+}
+
+/* @keyframes show {
+  0% {
+    transform: translateX(100%);
+  }
+
+  40% {
+    transform: translateX(-5%);
+  }
+
+  80% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-10px);
+  }
+} */
+
+
+@keyframes slideIn {
+  from {
+      transform: translateX(100%);
+  }
+  to {
+      transform: translateX(-10px);
+  }
+}
+
+@keyframes slideOut {
+  from {
+      transform: translateX(-10px);
+  }
+  to {
+      transform: translateX(calc(100% + 20px));
+  }
+}
+
+
+.toast-list .toast.hide {
+  animation: hide 0.3s ease forwards;
+}
+
+@keyframes hide {
+  0% {
+    transform: translateX(-10px);
+  }
+
+  40% {
+    transform: translateX(0%);
+  }
+
+  80% {
+    transform: translateX(-5%);
+  }
+
+  100% {
+    transform: translateX(calc(100% + 20px));
+  }
+}
+
+.toast-list .toast::before {
+  content: "";
+  position: absolute;
+  height: 3px;
+  width: 100%;
+  background: red; /* Change this to var(--error) to use the error color variable */
+  bottom: 0;
+  left: 0;
+  animation: load 5s linear forwards;
+}
+
+@keyframes load {
+  100% {
+    width: 0;
+  }
+}
+
+.toast-list .toast .column {
+  display: flex;
+  align-items: center;
+}
+
+.toast-list .toast .column i {
+  font-size: 1.75rem;
+}
+
+.toast-list .toast.success .column i {
+  color: var(--success);
+}
+
+.toast-list .toast.info .column i {
+  color: var(--info);
+}
+.toast-list .toast.warning .column i {
+  color: var(--warning);
+}
+.toast-list .toast.error .column i {
+  color: var(--error);
+}
+
+.toast-list .toast .column span {
+  font-size: 1.05rem;
+  margin-left: 12px;
+}
+
+.toast-list .toast i:last-child {
+  cursor: pointer;
+  color: #aeb0d7;
+}
+
+
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.form-container {
+  background-color: #f2f2f2;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 300px;
+}
+
+.form-container h2 {
+  margin-bottom: 20px;
+}
+
+.form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-container input {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.form-container button {
+  padding: 10px;
+  border: none;
+  background-color: #333;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form-container button:hover {
+  background-color: #555;
+}
+
+
+
+
+
+
+/* register */
+.form-container1 {
+  background-color: #f2f2f2;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 300px;
+}
+
+.form-container1 h2 {
+  margin-bottom: 20px;
+}
+
+.form-container1 form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-container1 input {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.form-container1 button {
+  padding: 10px;
+  border: none;
+  background-color: #333;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form-container1 button:hover {
+  background-color: #555;
+}
+
+
+
+.registerLink{
+  text-decoration: none;
+  color: rgb(0, 91, 139);
+  cursor: pointer;
+}
+.loginLink{
+  cursor: pointer;
+}

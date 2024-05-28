@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secure Document Manager</title>
+    <style>
+      .form-container1 {
+        display: none;
+      }
+    </style>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <h1>Secure Document Manager</h1>
+    </header>
+    <main>
+      <!-- Login Form -->
+
+      <div id="login-form" class="form-container">
+        <h2>Login</h2>
+        <form id="login-form">
+          <input type="email" id="email" placeholder="Email" required />
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            required
+          />
+          <button type="submit">Login</button>
+          <p>Dont Have an account</p>
+          <p href="#" class="registerLink">Register Now</p>
+        </form>
+      </div>
+
+      <!-- Registration Form -->
+      <!-- <div id="register-form" class="form-container">
+        <h2>Register</h2>
+        <form id="register-form">
+          <input type="email" id="reg-email" placeholder="Email" required />
+          <input
+            type="password"
+            id="reg-password"
+            placeholder="Password"
+            required
+          />
+          <input
+            type="password"
+            id="confirm-password"
+            placeholder="Confirm Password"
+            required
+          />
+          <button type="submit">Register</button>
+        </form>
+      </div> -->
+  
+  
+
+      <div id="register-form" class="form-container1">
+        <h2>Register</h2>
+        <form id="registration-form">
+          <input type="email" id="reg-email" placeholder="Email" required />
+          <input type="password" id="reg-password" placeholder="Password" required />
+          <input type="password" id="confirm-password" placeholder="Confirm Password" required />
+          <button type="submit">Register</button>
+          <p href="#" class="loginLink">Login Now</p>
+        </form>
+      </div>
+  
+    </main>
+    <footer>
+      <!-- Footer Content -->
+    </footer>
+
+    <!-- Firebase SDK -->
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-auth.js"></script>
+    <!-- Your Firebase Configuration -->
+    <script src="firebase-config.js"></script>
+    <!-- Your App JavaScript -->
+    <script src="app.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const registerLink = document.querySelector(".registerLink");
+        const loginLink = document.querySelector(".loginLink");
+        const registerForm = document.getElementById("register-form");
+        const loginForm = document.getElementById("login-form");
+     
+        registerLink.addEventListener("click", function() {
+          registerForm.style.display = "block";
+          loginForm.style.display = "none"; // Hide login form
+        });
+    
+        loginLink.addEventListener("click", function() {
+          loginForm.style.display = "block";
+          registerForm.style.display = "none"; // Hide registration form
+        });
+      });
+    </script>
+  </body>
+</html>
